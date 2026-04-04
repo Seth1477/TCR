@@ -25,22 +25,23 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   });
 });
 
-// Before/After slider
+// Before/After slider — BEFORE is the top overlay, AFTER is the background
 const sliderWrap = document.querySelector('.slider-wrap');
 if (sliderWrap) {
-  const afterPane = sliderWrap.querySelector('.slider-after');
+  const beforePane = sliderWrap.querySelector('.slider-before-pane');
   const handle = sliderWrap.querySelector('.slider-handle');
 
   function setPosition(x) {
     const rect = sliderWrap.getBoundingClientRect();
     let pct = (x - rect.left) / rect.width;
     pct = Math.min(Math.max(pct, 0.02), 0.98);
-    afterPane.style.width = pct * 100 + '%';
+    // beforePane width = pct → left side shows BEFORE, right side reveals AFTER
+    beforePane.style.width = pct * 100 + '%';
     handle.style.left = pct * 100 + '%';
   }
 
   let dragging = false;
-  sliderWrap.addEventListener('mousedown', e => { dragging = true; setPosition(e.clientX); });
+  sliderWrap.addEventListener('mousedown', e => { dragging = true; setPosition(e.clientX); e.preventDefault(); });
   window.addEventListener('mousemove', e => { if (dragging) setPosition(e.clientX); });
   window.addEventListener('mouseup', () => { dragging = false; });
 

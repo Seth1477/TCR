@@ -619,24 +619,30 @@ p:last-child { margin-bottom: 0; }
 
 .slider-section { padding: 80px 0; }
 
-.slider-wrap {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius);
-  box-shadow: 0 12px 48px rgba(46,92,40,.2);
-  cursor: ew-resize;
-  user-select: none;
+.slider-outer {
   max-width: 780px;
   margin: 48px auto 0;
 }
 
-.slider-wrap img {
+.slider-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(46,92,40,.25), 0 4px 16px rgba(0,0,0,.15);
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+/* AFTER = background (always full size) */
+.slider-bg-img {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.slider-after {
+/* BEFORE = clipped overlay on top, starting at 50% from the left */
+.slider-before-pane {
   position: absolute;
   top: 0;
   left: 0;
@@ -645,81 +651,85 @@ p:last-child { margin-bottom: 0; }
   overflow: hidden;
 }
 
-.slider-after img {
+.slider-before-pane img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100%;          /* full container width so image spans behind clip */
   height: 100%;
   object-fit: cover;
   max-width: none;
 }
 
-/* Make the "before" image fill correctly */
-.slider-before {
-  display: block;
-  width: 100%;
+/* inline "BEFORE" / "AFTER" labels baked into the image area */
+.slider-badge {
+  position: absolute;
+  top: 16px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-radius: 40px;
+  pointer-events: none;
+  z-index: 12;
+}
+.slider-badge--before {
+  left: 16px;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+}
+.slider-badge--after {
+  right: 16px;
+  background: rgba(46,92,40,.85);
+  color: #fff;
 }
 
+/* drag handle */
 .slider-handle {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
+  width: 3px;
   height: 100%;
   background: var(--white);
-  box-shadow: 0 0 12px rgba(0,0,0,.4);
-  z-index: 10;
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+  z-index: 11;
+  pointer-events: none;
 }
 
-.slider-handle::after {
-  content: '';
+.slider-handle__btn {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--white);
-  box-shadow: 0 2px 16px rgba(0,0,0,.3);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%232e5c28' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'/%3E%3Cpolyline points='9 18 15 12 9 6' transform='translate(0,0)'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 20px;
-}
-
-.slider-labels {
+  box-shadow: 0 4px 20px rgba(0,0,0,.35);
   display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-  max-width: 780px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.slider-label {
-  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 5px 14px;
-  background: var(--offwhite);
-  border: 1px solid var(--light);
-  border-radius: 40px;
+  justify-content: center;
+  gap: 0;
+  pointer-events: none;
 }
 
-/* ---- BEFORE/AFTER image fix for slider ---- */
-.slider-before-img {
-  display: block;
-  width: 100%;
-  height: auto;
+.slider-hint {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
+
+.slider-hint svg { color: var(--accent); }
 
 /* =============================================
    VIDEO SECTION
