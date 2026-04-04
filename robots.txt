@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tcrremoval.ca/sitemap.xml
