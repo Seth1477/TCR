@@ -2,6 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYBHZX9HSG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VYBHZX9HSG');
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="tel:"]');
+      if (a) gtag('event', 'phone_click');
+    });
+  </script>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
@@ -485,6 +497,8 @@
         if (res.ok) {
           form.style.display = 'none';
           success.style.display = 'block';
+          // Google Analytics 4 lead event (mark as a key event in GA4).
+          if (typeof gtag === 'function') gtag('event', 'generate_lead', { form_name: 'contact' });
         } else {
           throw new Error('Server error');
         }
